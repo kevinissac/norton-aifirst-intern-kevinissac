@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXFileReference section */
+		4E0D5A2A2F956D5E00765665 /* ScamKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = ScamKit; sourceTree = SOURCE_ROOT; };
 		4EBD52772F92ACBD005C7159 /* ScamDetector.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ScamDetector.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -29,9 +30,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4E0D5A292F956CE500765665 /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				4E0D5A2A2F956D5E00765665 /* ScamKit */,
+			);
+			path = Packages;
+			sourceTree = "<group>";
+		};
 		4EBD526E2F92ACBD005C7159 = {
 			isa = PBXGroup;
 			children = (
+				4E0D5A292F956CE500765665 /* Packages */,
 				4EBD52792F92ACBD005C7159 /* ScamDetector */,
 				4EBD52782F92ACBD005C7159 /* Products */,
 			);

@@ -5,6 +5,7 @@
 *.xcuserstate
 .DS_Store
 Config.plist
+buildServer.json
 
 ## User settings
 xcuserdata/
@@ -64,3 +65,5 @@ fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots/**/*.png
 fastlane/test_output
+
+
