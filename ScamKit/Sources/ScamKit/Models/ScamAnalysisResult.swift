@@ -61,7 +61,7 @@ public struct ScamAnalysisResult: Codable {
     public let confidenceScore: Double
     public let explanation: String
     
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case riskLevel
         case confidenceScore
         case explanation
@@ -112,9 +112,18 @@ public struct ScamAnalysisResult: Codable {
     }
     
     private static func normalizedConfidenceScore(from value: Double) -> Double {
-        if value > 1 {
-            return min(max(value / 100, 0), 1)
+        let clampedValue = min(max(value, 0), 1)
+        
+        guard value.isFinite else {
+            return clampedValue
         }
-        return min(max(value, 0), 1)
+        
+        // Only treat whole-number values in the 0...100 range as percentages.
+        // Fractional values such as 1.5 are interpreted as direct scores and clamped.
+        if value > 1, value <= 100, value.rounded(.towardZero) == value {
+            return value / 100
+        }
+        
+        return clampedValue
     }
 }

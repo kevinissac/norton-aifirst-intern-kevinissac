@@ -149,9 +149,13 @@ struct ContentView: View {
                 }
             }
             
+            if (viewModel.analysisResult == nil) {
+                exampleMessagesSection
+            }
             
-            analysisSection
-            
+            if (viewModel.analysisResult != nil) {
+                analysisSection
+            }
             
             Button {
                 if viewModel.analysisResult != nil {
@@ -211,6 +215,43 @@ struct ContentView: View {
                 )
                 .ignoresSafeArea(edges: .bottom) // extends behind home indicator
         )
+    }
+
+    private var exampleMessagesSection: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Text("Try an example")
+                .font(.system(size: 15, weight: .bold, design: .rounded))
+                .foregroundStyle(.black)
+
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 10) {
+                    ForEach(viewModel.exampleMessages) { example in
+                        Button {
+                            viewModel.useExampleMessage(example.message)
+                            isInputFocused = true
+                        } label: {
+                            Text(example.title)
+                                .font(.system(size: 13, weight: .semibold, design: .rounded))
+                                .foregroundStyle(.black)
+                                .padding(.horizontal, 12)
+                                .padding(.vertical, 9)
+                                .background(
+                                    example.isScam
+                                        ? Color(red: 1.0, green: 0.9, blue: 0.9)
+                                        : Color(red: 0.9, green: 1.0, blue: 0.9)
+                                )
+                                .clipShape(Capsule())
+                                .overlay(
+                                    Capsule()
+                                        .stroke(Color.black.opacity(0.2), lineWidth: 1)
+                                )
+                        }
+                        .buttonStyle(.plain)
+                        .disabled(viewModel.isScanning)
+                    }
+                }
+            }
+        }
     }
 
     private var analysisSection: some View {

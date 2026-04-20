@@ -65,7 +65,7 @@ public final class ScamKit {
     private func generateContent(prompt: String) async throws -> String {
         let urlString = "https://generativelanguage.googleapis.com/v1beta/models/\(model):generateContent?key=\(apiKey)"
         guard let url = URL(string: urlString) else {
-            throw ScamKitError.invalidResponse
+            throw URLError(.badURL)
         }
         
         var request = URLRequest(url: url)

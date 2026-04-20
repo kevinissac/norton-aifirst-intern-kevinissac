@@ -10,6 +10,13 @@ import SwiftUI
 import Combine
 import ScamKit
 
+public struct ExampleMessage: Identifiable {
+    public let id = UUID()
+    let title: String
+    let message: String
+    let isScam: Bool
+}
+
 @MainActor
 class ScanViewModel: ObservableObject {
     @Published var scannedMessageCount: Int = 20
@@ -18,6 +25,24 @@ class ScanViewModel: ObservableObject {
     @Published var isScanning: Bool = false
     @Published var analysisResult: ScamAnalysisResult?
     @Published var scanError: String?
+
+    let exampleMessages: [ExampleMessage] = [
+        ExampleMessage(
+            title: "Bank alert (Scam)",
+            message: "URGENT: Your account is locked due to suspicious activity. Verify now at http://secure-bank-verify-login.co within 10 minutes to avoid permanent suspension.",
+            isScam: true
+        ),
+        ExampleMessage(
+            title: "Package fee (Scam)",
+            message: "Your parcel delivery failed. Pay a $2.99 redelivery fee immediately at https://track-postal-fast-pay.com to avoid return to sender.",
+            isScam: true
+        ),
+        ExampleMessage(
+            title: "Team meeting (Safe)",
+            message: "Hi team, reminder that our sprint planning meeting is tomorrow at 10:30 AM in Meeting Room B. Please bring your task updates.",
+            isScam: false
+        )
+    ]
     
     func scanMessage() {
         let message = inputText.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -53,5 +78,11 @@ class ScanViewModel: ObservableObject {
         scanError = nil
         analysisResult = nil
         inputText = ""
+    }
+
+    func useExampleMessage(_ message: String) {
+        inputText = message
+        scanError = nil
+        analysisResult = nil
     }
 }

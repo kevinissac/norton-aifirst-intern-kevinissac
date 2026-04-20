@@ -22,6 +22,10 @@ let package = Package(
         .target(
             name: "ScamKit"
         ),
+        .testTarget(
+            name: "ScamKitTests",
+            dependencies: ["ScamKit"]
+        )
 
     ]
 )
