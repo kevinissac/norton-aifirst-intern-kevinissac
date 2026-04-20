@@ -82,6 +82,12 @@ swift test
 
 Current status in this workspace: `8 tests passing`.
 
+## Screenshots
+
+| | | |
+|:-------------------------:|:-------------------------:|:-------------------------:|
+| ![alt text](/Screenshots/1.PNG) | ![alt text](/Screenshots/2.PNG) | ![alt text](/Screenshots/3.PNG) |
+
 ## ScamKit API Contract
 
 ### Input
