@@ -73,6 +73,8 @@ API_KEY = <YOUR_GEMINI_API_KEY>
 
 4. Now navigate to the ScamDetector Project settings, go to the Info tab, then locate the Configurations section. Expand the Debug configuration and set its value to the newly created Config.xcconfig file.
 
+![alt text](/Screenshots/config.png)
+
 Note: When opening Xcode, the Packages folder may appear highlighted in red — this is expected and can be safely ignored.
 
 ## Run The iOS App
