@@ -107,7 +107,7 @@ Current status in this workspace: `8 tests passing`.
 
 After exploring Norton Genie scam detection flow, I noticed the actual app requires 4-5 taps to reach a scan result.
 
-In this prototype I reduced that to 3 taps:
+In this prototype I reduced that to 2 taps:
 
 1. Paste message
 2. Tap "Analyze"
