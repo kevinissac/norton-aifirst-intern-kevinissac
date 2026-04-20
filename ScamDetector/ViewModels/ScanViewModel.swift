@@ -49,7 +49,13 @@ class ScanViewModel: ObservableObject {
         guard !message.isEmpty else { return }
         guard !isScanning else { return }
         
-        guard let apiKey = Bundle.main.infoDictionary?["API_KEY"] as? String else { return }
+        guard
+            let apiKey = Bundle.main.infoDictionary?["API_KEY"] as? String,
+            !apiKey.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        else {
+            scanError = "API key is not configured."
+            return
+        }
         
         isScanning = true
         scanError = nil

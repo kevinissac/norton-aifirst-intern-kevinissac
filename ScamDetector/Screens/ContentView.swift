@@ -19,7 +19,7 @@ struct ContentView: View {
                     .ignoresSafeArea()
                 
                 ScrollView {
-                    if !isInputFocused && (viewModel.analysisResult == nil){
+                    if !isInputFocused && viewModel.analysisResult == nil {
                         headerSection
                             .padding(.horizontal, 20)
                             .padding(.top, 4)
@@ -59,7 +59,7 @@ struct ContentView: View {
             }
         }
         .onChange(of: viewModel.isScanning) { oldValue, newValue in
-            if newValue == true {
+            if newValue {
                 UIApplication.shared.dismissKeyboard()
             }
         }
@@ -168,7 +168,7 @@ struct ContentView: View {
                     if viewModel.isScanning {
                         ProgressView()
                             .tint(.black)
-                        Text("Scanning...")
+                        Text("Analyzing...")
                             .font(.system(.body, design: .rounded, weight: .bold))
                     } else if viewModel.analysisResult != nil {
                         Text("Done")
@@ -176,7 +176,7 @@ struct ContentView: View {
                         Image(systemName: "arrow.right")
                             .font(.system(size: 20, weight: .bold))
                     } else {
-                        Text("Scan message")
+                        Text("Analyze")
                             .font(.system(.body, design: .rounded, weight: .bold))
                         Image(systemName: "arrow.right")
                             .font(.system(size: 20, weight: .bold))
@@ -195,7 +195,7 @@ struct ContentView: View {
             .disabled(viewModel.isScanning)
             
             
-            if (viewModel.analysisResult != nil) || viewModel.isScanning {
+            if viewModel.analysisResult != nil || viewModel.isScanning {
                 Spacer()
             }
         }
