@@ -7,13 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4EBA28142F96A5D000451923 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 4EBA28132F96A5D000451923 /* Config.xcconfig */; };
-		4EBA28412F96ACC200451923 /* ScamKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4EBA28402F96ACC200451923 /* ScamKit */; };
+		4E0761D32F96EA4B00962317 /* ScamKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4E0761D22F96EA4B00962317 /* ScamKit */; };
+		4E0761D52F96EA7800962317 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 4E0761D42F96EA7800962317 /* Config.xcconfig */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4E0761D42F96EA7800962317 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		4E0D5A2A2F956D5E00765665 /* ScamKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = ScamKit; sourceTree = SOURCE_ROOT; };
-		4EBA28132F96A5D000451923 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		4EBD52772F92ACBD005C7159 /* ScamDetector.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ScamDetector.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -43,7 +43,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4EBA28412F96ACC200451923 /* ScamKit in Frameworks */,
+				4E0761D32F96EA4B00962317 /* ScamKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -68,7 +68,7 @@
 		4EBD526E2F92ACBD005C7159 = {
 			isa = PBXGroup;
 			children = (
-				4EBA28132F96A5D000451923 /* Config.xcconfig */,
+				4E0761D42F96EA7800962317 /* Config.xcconfig */,
 				4E0D5A292F956CE500765665 /* Packages */,
 				4EBD52792F92ACBD005C7159 /* ScamDetector */,
 				4EBA283F2F96ACC200451923 /* Frameworks */,
@@ -104,7 +104,7 @@
 			);
 			name = ScamDetector;
 			packageProductDependencies = (
-				4EBA28402F96ACC200451923 /* ScamKit */,
+				4E0761D22F96EA4B00962317 /* ScamKit */,
 			);
 			productName = ScamDetector;
 			productReference = 4EBD52772F92ACBD005C7159 /* ScamDetector.app */;
@@ -149,7 +149,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4EBA28142F96A5D000451923 /* Config.xcconfig in Resources */,
+				4E0761D52F96EA7800962317 /* Config.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -168,7 +168,7 @@
 /* Begin XCBuildConfiguration section */
 		4EBD52802F92ACC4005C7159 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4EBA28132F96A5D000451923 /* Config.xcconfig */;
+			baseConfigurationReference = 4E0761D42F96EA7800962317 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -378,7 +378,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		4EBA28402F96ACC200451923 /* ScamKit */ = {
+		4E0761D22F96EA4B00962317 /* ScamKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = ScamKit;
 		};

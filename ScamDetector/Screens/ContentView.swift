@@ -160,8 +160,12 @@ struct ContentView: View {
             Button {
                 if viewModel.analysisResult != nil {
                     viewModel.clear()
-                } else {
+                } else if !viewModel.inputText.isEmpty {
                     viewModel.scanMessage()
+                } else {
+                    if let copied = UIPasteboard.general.string {
+                        viewModel.inputText = copied
+                    }
                 }
             } label: {
                 HStack(spacing: 8) {
@@ -175,11 +179,16 @@ struct ContentView: View {
                             .font(.system(.body, design: .rounded, weight: .bold))
                         Image(systemName: "arrow.right")
                             .font(.system(size: 20, weight: .bold))
-                    } else {
+                    } else if !viewModel.inputText.isEmpty {
                         Text("Analyze")
                             .font(.system(.body, design: .rounded, weight: .bold))
                         Image(systemName: "arrow.right")
                             .font(.system(size: 20, weight: .bold))
+                    } else {
+                        Text("Paste Text")
+                            .font(.system(.body, design: .rounded, weight: .bold))
+                        Image(systemName: "document.on.clipboard")
+                            .font(.system(size: 15, weight: .bold))
                     }
                 }
                 .foregroundStyle(.black)
