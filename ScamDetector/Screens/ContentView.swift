@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import ScamKit
 
 struct ContentView: View {
     @StateObject private var viewModel = ScanViewModel()
@@ -18,7 +19,7 @@ struct ContentView: View {
                     .ignoresSafeArea()
                 
                 ScrollView {
-                    if !isInputFocused {
+                    if !isInputFocused && (viewModel.analysisResult == nil){
                         headerSection
                             .padding(.horizontal, 20)
                             .padding(.top, 4)
@@ -55,6 +56,11 @@ struct ContentView: View {
                             .foregroundStyle(.black)
                     }
                 }
+            }
+        }
+        .onChange(of: viewModel.isScanning) { oldValue, newValue in
+            if newValue == true {
+                UIApplication.shared.dismissKeyboard()
             }
         }
     }
@@ -131,6 +137,7 @@ struct ContentView: View {
                         RoundedRectangle(cornerRadius: 22, style: .continuous)
                             .stroke(Color.black, lineWidth: 2)
                     )
+                    .disabled(viewModel.isScanning)
                 
                 if viewModel.inputText.isEmpty {
                     Text("Paste the text or link here.")
@@ -142,14 +149,34 @@ struct ContentView: View {
                 }
             }
             
+            
+            analysisSection
+            
+            
             Button {
-                viewModel.scanMessage()
+                if viewModel.analysisResult != nil {
+                    viewModel.clear()
+                } else {
+                    viewModel.scanMessage()
+                }
             } label: {
                 HStack(spacing: 8) {
-                    Text("Scan message")
-                        .font(.system(.body, design: .rounded, weight: .bold))
-                    Image(systemName: "arrow.right")
-                        .font(.system(size: 20, weight: .bold))
+                    if viewModel.isScanning {
+                        ProgressView()
+                            .tint(.black)
+                        Text("Scanning...")
+                            .font(.system(.body, design: .rounded, weight: .bold))
+                    } else if viewModel.analysisResult != nil {
+                        Text("Done")
+                            .font(.system(.body, design: .rounded, weight: .bold))
+                        Image(systemName: "arrow.right")
+                            .font(.system(size: 20, weight: .bold))
+                    } else {
+                        Text("Scan message")
+                            .font(.system(.body, design: .rounded, weight: .bold))
+                        Image(systemName: "arrow.right")
+                            .font(.system(size: 20, weight: .bold))
+                    }
                 }
                 .foregroundStyle(.black)
                 .frame(maxWidth: .infinity)
@@ -160,6 +187,12 @@ struct ContentView: View {
                     Capsule()
                         .stroke(Color.black, lineWidth: 2)
                 )
+            }
+            .disabled(viewModel.isScanning)
+            
+            
+            if (viewModel.analysisResult != nil) || viewModel.isScanning {
+                Spacer()
             }
         }
         .padding(.horizontal, 20)
@@ -179,4 +212,67 @@ struct ContentView: View {
                 .ignoresSafeArea(edges: .bottom) // extends behind home indicator
         )
     }
+
+    private var analysisSection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            if let result = viewModel.analysisResult {
+                Text("Result")
+                    .font(.system(size: 16, weight: .bold, design: .rounded))
+                    .foregroundStyle(.black)
+
+                VStack(alignment: .leading, spacing: 10) {
+                    HStack {
+                        Text("Risk level")
+                            .font(.system(size: 14, weight: .semibold, design: .rounded))
+                            .foregroundStyle(.black.opacity(0.7))
+                        Spacer()
+                        Text(result.riskLevel.rawValue)
+                            .font(.system(size: 14, weight: .bold, design: .rounded))
+                            .foregroundStyle(result.riskLevel.color)
+                    }
+
+                    HStack {
+                        Text("Confidence")
+                            .font(.system(size: 14, weight: .semibold, design: .rounded))
+                            .foregroundStyle(.black.opacity(0.7))
+                        Spacer()
+                        Text("\(Int(result.confidenceScore * 100))%")
+                            .font(.system(size: 14, weight: .bold, design: .rounded))
+                            .foregroundStyle(.black)
+                    }
+
+                    Text(result.explanation)
+                        .font(.system(size: 15, weight: .medium, design: .rounded))
+                        .foregroundStyle(.black)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                .padding(16)
+                .background(Color(red: 0.98, green: 0.98, blue: 0.98))
+                .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 16, style: .continuous)
+                        .stroke(Color.black.opacity(0.15), lineWidth: 1)
+                )
+            }
+
+            if let errorMessage = viewModel.scanError {
+                Text(errorMessage)
+                    .font(.system(size: 14, weight: .medium, design: .rounded))
+                    .foregroundStyle(.red)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+//    private func riskColor(for riskLevel: ScamRiskLevel) -> Color {
+//        switch riskLevel {
+//        case .safe:
+//            return .green
+//        case .suspicious:
+//            return .orange
+//        case .dangerous:
+//            return .red
+//        }
+//    }
 }

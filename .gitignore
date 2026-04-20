@@ -5,6 +5,7 @@
 *.xcuserstate
 .DS_Store
 Config.plist
+Config.xcconfig
 buildServer.json
 
 ## User settings

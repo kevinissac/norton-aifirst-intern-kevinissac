@@ -10,41 +10,111 @@ import Foundation
 import SwiftUI
 
 public enum ScamRiskLevel: String, Codable, CaseIterable {
-    case safe
-    case suspicious
-    case dangerous
-
-    var color: Color {
-      switch self {
-      case .safe:
-        return .green
-      case .suspicious:
-        return .yellow
-      case .dangerous:
-        return .red
-      }
+    case safe = "Safe"
+    case suspicious = "Suspicious"
+    case dangerous = "Dangerous"
+    
+    
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        let value = try container.decode(String.self)
+        switch value.trimmingCharacters(in: .whitespacesAndNewlines).lowercased() {
+        case "safe":
+            self = .safe
+        case "suspicious":
+            self = .suspicious
+        case "dangerous":
+            self = .dangerous
+        default:
+            throw DecodingError.dataCorruptedError(
+                in: container,
+                debugDescription: "Unknown risk level: \(value)"
+            )
+        }
     }
-
-    var label: String {
-      switch self {
-      case .safe:
-        return "Safe"
-      case .suspicious:
-        return "Suspicious"
-      case .dangerous:
-        return "Dangerous"
-      }
+    
+    public var color: Color {
+        switch self {
+        case .safe:
+            return .green
+        case .suspicious:
+            return .yellow
+        case .dangerous:
+            return .red
+        }
     }
+    
+//    public var label: String {
+//        switch self {
+//        case .safe:
+//            return "Safe"
+//        case .suspicious:
+//            return "Suspicious"
+//        case .dangerous:
+//            return "Dangerous"
+//        }
+//    }
 }
 
 public struct ScamAnalysisResult: Codable {
     public let riskLevel: ScamRiskLevel
     public let confidenceScore: Double
     public let explanation: String
-
+    
+    enum CodingKeys: String, CodingKey {
+        case riskLevel
+        case confidenceScore
+        case explanation
+    }
+    
     public init(riskLevel: ScamRiskLevel, confidenceScore: Double, explanation: String) {
         self.riskLevel = riskLevel
-        self.confidenceScore = confidenceScore
+        self.confidenceScore = Self.normalizedConfidenceScore(from: confidenceScore)
         self.explanation = explanation
+    }
+    
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        riskLevel = try container.decode(ScamRiskLevel.self, forKey: .riskLevel)
+        explanation = try container.decode(String.self, forKey: .explanation)
+        
+        if let score = try? container.decode(Double.self, forKey: .confidenceScore) {
+            confidenceScore = Self.normalizedConfidenceScore(from: score)
+            return
+        }
+        
+        if let scoreInt = try? container.decode(Int.self, forKey: .confidenceScore) {
+            confidenceScore = Self.normalizedConfidenceScore(from: Double(scoreInt))
+            return
+        }
+        
+        if let scoreString = try? container.decode(String.self, forKey: .confidenceScore),
+           let parsed = Self.parseConfidenceScore(from: scoreString) {
+            confidenceScore = Self.normalizedConfidenceScore(from: parsed)
+            return
+        }
+        
+        throw DecodingError.dataCorruptedError(
+            forKey: .confidenceScore,
+            in: container,
+            debugDescription: "confidenceScore must be numeric or numeric string"
+        )
+    }
+    
+    private static func parseConfidenceScore(from raw: String) -> Double? {
+        let value = raw.trimmingCharacters(in: .whitespacesAndNewlines)
+        if value.hasSuffix("%") {
+            let numberText = value.dropLast().trimmingCharacters(in: .whitespacesAndNewlines)
+            guard let percent = Double(numberText) else { return nil }
+            return percent / 100
+        }
+        return Double(value)
+    }
+    
+    private static func normalizedConfidenceScore(from value: Double) -> Double {
+        if value > 1 {
+            return min(max(value / 100, 0), 1)
+        }
+        return min(max(value, 0), 1)
     }
 }
