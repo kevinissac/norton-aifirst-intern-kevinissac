@@ -14,7 +14,7 @@ The app analyzes the input and returns:
 
 ## Demo Video
 
-[Watch on YouTube](your-link-here)
+[Watch on YouTube](https://youtu.be/KnHXrwRqk6A)
 
 ## Architecture
 
