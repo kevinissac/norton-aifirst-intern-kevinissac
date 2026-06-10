@@ -12,10 +12,6 @@ The app analyzes the input and returns:
 - A confidence score (0–100)
 - A brief explanation of why the message was flagged
 
-## Demo Video
-
-[Watch on YouTube](https://youtu.be/KnHXrwRqk6A)
-
 ## Architecture
 
 The project is split into two targets:
